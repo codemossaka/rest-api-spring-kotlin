@@ -1,18 +1,19 @@
 package ru.godsonpeya.courseapp.service
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import ru.godsonpeya.courseapp.entity.Course
 import ru.godsonpeya.courseapp.repository.CourseRepository
 
 @Service
-class CourseService constructor(private val courseRepository: CourseRepository) {
+class CourseService @Autowired constructor(private val courseRepository: CourseRepository) {
 
     fun getAll(): List<Course> {
         return courseRepository.findAll()
     }
 
     fun getOne(id: Long): Course {
-        return courseRepository.findById(id).orElseThrow { Exception("dhfhf") }
+        return courseRepository.findById(id).orElseThrow { IllegalArgumentException("Such of course doesn't exist") }
     }
 
     fun create(course: Course): Course {
@@ -27,6 +28,6 @@ class CourseService constructor(private val courseRepository: CourseRepository) 
     }
 
     fun delete(id: Long): String {
-        return courseRepository.delete(getOne(id)).run { "Deleted" }
+        return courseRepository.delete(getOne(id)).run { "Course deleted" }
     }
 }
